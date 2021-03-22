@@ -17,7 +17,7 @@ development:
 
 test:
   <<: *default
-  url: postgres://test:password@localhost/test
+  url: <%= ENV.fetch("DB_URL") { "postgres://test:password@localhost/test" } %>
 
 production:
   <<: *default
