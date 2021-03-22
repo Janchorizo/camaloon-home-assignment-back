@@ -1,6 +1,6 @@
 ## camaloon-home-assignment-back
 
-[![RSpec test workbench](https://github.com/Janchorizo/camaloon-home-assignment-back/actions/workflows/rspec.yml/badge.svg?branch=master)](https://github.com/Janchorizo/camaloon-home-assignment-back/actions/workflows/rspec.yml)
+[![RSpec test workbench](https://github.com/Janchorizo/camaloon-home-assignment-back/actions/workflows/rspec.yml/badge.svg)](https://github.com/Janchorizo/camaloon-home-assignment-back/actions/workflows/rspec.yml)
 
 Repository for the API server implemented for the job application at
 [Camaloon](https://camaloon.com/).
