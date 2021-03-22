@@ -9,7 +9,7 @@ RSpec.describe 'Health API', type: :request do
       expect(json).not_to be_empty
     end
     it 'returns status code 200' do
-      expect(json).to have_http_status(200)
+      expect(response).to have_http_status(200)
     end
     it 'has {healthy: bool} shape' do
       expect(json.length).to eq(1)
