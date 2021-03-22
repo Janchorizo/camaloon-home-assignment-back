@@ -13,4 +13,7 @@ test:
 serve:
 	rails s
 
-$PHONY: test serve
+install:
+	bundler install
+
+$PHONY: test serve install
