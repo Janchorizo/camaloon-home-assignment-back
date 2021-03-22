@@ -23,6 +23,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: harmon758/postgresql-action@v1
+      with:
+        postgresql version: '12'  # See https://hub.docker.com/_/postgres for available versions
+        postgresql db: 'camaloon_test'
+        postgresql user: 'test_user'
+        postgresql password: 'test_user'
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
     # change this to (see https://github.com/ruby/setup-ruby#versioning):
@@ -32,4 +38,30 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run tests
+      env:
+        DB_NAME: 'camaloon_test'
+        DB_HOST: 'http://localhost:5432'
+        DB_USER: 'test_user'
+        DB_PASSWORD: 'test_user'
       run: bundle exec rspec
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
