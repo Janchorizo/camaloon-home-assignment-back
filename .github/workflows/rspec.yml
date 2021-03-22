@@ -39,10 +39,10 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run tests
       env:
-        DB_NAME: 'camaloon_test'
+        DB_NAME: 'test'
         DB_HOST: 'http://localhost:5432'
-        DB_USER: 'test_user'
-        DB_PASSWORD: 'test_user'
+        DB_USER: 'test'
+        DB_PASSWORD: 'password'
       run: bundle exec rspec
       
       
