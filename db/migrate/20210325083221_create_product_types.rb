@@ -3,7 +3,7 @@ class CreateProductTypes < ActiveRecord::Migration[6.1]
     create_table :product_types do |t|
       t.string :name
       t.string :description
-      t.bool :hidden
+      t.boolean :hidden
 
       t.timestamps
     end
