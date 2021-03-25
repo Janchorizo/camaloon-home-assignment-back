@@ -50,10 +50,20 @@ RSpec.describe ProductType, type: :model do
     p_type = ProductType.new(name: name, description: desc, hidden: hidden)
     expect(p_type).to_not be_valid
   end
-  it "is valid with a nil hidden parameter, and it is set to true" do
+  it "is valid with a nil or invalid hidden parameter, and it is set to true" do
     name = 'name'
     desc = 'desc'
     hidden = nil
+    p_type = ProductType.new(name: name, description: desc, hidden: hidden)
+    expect(p_type).to be_valid
+    expect(p_type.hidden).to eq(true)
+
+    hidden = 'text'
+    p_type = ProductType.new(name: name, description: desc, hidden: hidden)
+    expect(p_type).to be_valid
+    expect(p_type.hidden).to eq(true)
+
+    hidden = 123
     p_type = ProductType.new(name: name, description: desc, hidden: hidden)
     expect(p_type).to be_valid
     expect(p_type.hidden).to eq(true)
