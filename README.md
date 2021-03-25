@@ -19,6 +19,12 @@ Clone the repo into the desired work directory:
 
 `git clone git@github.com:Janchorizo/camaloon-home-assignment-back.git`
 
+Configure the database for the rails environment that you will use:
+
+_Allowed values are: default,development,test,production_
+
+`make configure -e RUBY_ENV=<your_environment>`
+
 Install the dependencies:
 
 `make install`
