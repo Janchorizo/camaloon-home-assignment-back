@@ -5,17 +5,16 @@ DB_NAME="camaloon_local"
 RAILS_ENV="default"
 
 configure:
-	echo $(RAILS_ENV)
 	bash ./config.sh $(RAILS_ENV)
 
 test:
 	DB_URL="postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST)/$(DB_NAME)" \
-		bundle exec rspec
+		RAILS_ENV=$(RAILS_ENV) bundle exec rspec
 
 serve:
-	rails s
+	RAILS_ENV=$(RAILS_ENV) rails s
 
 install:
-	bundler install
+	RAILS_ENV=$(RAILS_ENV) bundle install
 
 $PHONY: test serve install configure
