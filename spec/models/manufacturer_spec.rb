@@ -17,13 +17,13 @@ RSpec.describe Manufacturer, type: :model do
   end
 
   it "is not valid with a repeated name" do
-    manufacturer = create(manufacturer, name: :name)
+    manufacturer = create(:manufacturer, name: :name)
     subject.name = :name
     expect(subject).to_not be_valid
   end
 
   it "is not valid with a repeated cif" do
-    manufacturer = create(manufacturer, cif: :cif)
+    manufacturer = create(:manufacturer, cif: :cif)
     subject.cif = :cif
     expect(subject).to_not be_valid
   end
