@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe ProductType, type: :model do
+  subject { create :manufacturer }
   let(:name) { "simple name" }
 
+  it "is valid with the factory parameters" do
+    expect(subject).to be_valid
+  end
   it "is is valid with valid attributes" do
     name = 'name'
     desc = 'desc'

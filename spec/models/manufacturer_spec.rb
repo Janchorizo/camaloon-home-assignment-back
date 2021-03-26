@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Manufacturer, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { create :manufacturer }
+  let(:name) { "simple name" }
+
+  it "is valid with the factory parameters" do
+    expect(subject).to be_valid
+  end
 end

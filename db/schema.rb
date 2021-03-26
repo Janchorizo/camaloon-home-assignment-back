@@ -18,38 +18,24 @@ ActiveRecord::Schema.define(version: 2021_03_25_184927) do
   create_table "customization_choices", force: :cascade do |t|
     t.string "name"
     t.string "model_ref"
-    t.bigint "manufacturer_id", null: false
     t.string "description"
     t.float "extra_cost"
     t.float "stock"
-    t.bigint "customization_types_id", null: false
+    t.bigint "manufacturer_id", null: false
+    t.bigint "customization_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["customization_types_id"], name: "index_customization_choices_on_customization_types_id"
+    t.index ["customization_type_id"], name: "index_customization_choices_on_customization_type_id"
     t.index ["manufacturer_id"], name: "index_customization_choices_on_manufacturer_id"
   end
 
   create_table "customization_types", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.bigint "product_types_id", null: false
+    t.bigint "product_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["product_types_id"], name: "index_customization_types_on_product_types_id"
-  end
-
-  create_table "cutomization_choices", force: :cascade do |t|
-    t.string "name"
-    t.string "model_ref"
-    t.bigint "manufacturer_id", null: false
-    t.string "description"
-    t.float "extra_cost"
-    t.float "stock"
-    t.bigint "customization_types_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["customization_types_id"], name: "index_cutomization_choices_on_customization_types_id"
-    t.index ["manufacturer_id"], name: "index_cutomization_choices_on_manufacturer_id"
+    t.index ["product_type_id"], name: "index_customization_types_on_product_type_id"
   end
 
   create_table "manufacturers", force: :cascade do |t|
@@ -64,12 +50,12 @@ ActiveRecord::Schema.define(version: 2021_03_25_184927) do
   end
 
   create_table "product_choice_lines", force: :cascade do |t|
-    t.bigint "customization_choices_id", null: false
-    t.bigint "products_id", null: false
+    t.bigint "customization_choice_id", null: false
+    t.bigint "product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["customization_choices_id"], name: "index_product_choice_lines_on_customization_choices_id"
-    t.index ["products_id"], name: "index_product_choice_lines_on_products_id"
+    t.index ["customization_choice_id"], name: "index_product_choice_lines_on_customization_choice_id"
+    t.index ["product_id"], name: "index_product_choice_lines_on_product_id"
   end
 
   create_table "product_types", force: :cascade do |t|
@@ -83,20 +69,18 @@ ActiveRecord::Schema.define(version: 2021_03_25_184927) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.bigint "product_types_id", null: false
     t.float "base_price"
     t.boolean "hidden"
+    t.bigint "product_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["product_types_id"], name: "index_products_on_product_types_id"
+    t.index ["product_type_id"], name: "index_products_on_product_type_id"
   end
 
-  add_foreign_key "customization_choices", "customization_types", column: "customization_types_id"
+  add_foreign_key "customization_choices", "customization_types"
   add_foreign_key "customization_choices", "manufacturers"
-  add_foreign_key "customization_types", "product_types", column: "product_types_id"
-  add_foreign_key "cutomization_choices", "customization_types", column: "customization_types_id"
-  add_foreign_key "cutomization_choices", "manufacturers"
-  add_foreign_key "product_choice_lines", "customization_choices", column: "customization_choices_id"
-  add_foreign_key "product_choice_lines", "products", column: "products_id"
-  add_foreign_key "products", "product_types", column: "product_types_id"
+  add_foreign_key "customization_types", "product_types"
+  add_foreign_key "product_choice_lines", "customization_choices"
+  add_foreign_key "product_choice_lines", "products"
+  add_foreign_key "products", "product_types"
 end

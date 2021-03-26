@@ -1,4 +1,6 @@
 class ProductType < ApplicationRecord
+    has_many :product, dependent: :destroy
+    has_many :customization_type, dependent: :destroy
     validates :name, :description, presence: true, length: { minimum: 1 }
     validates :hidden, presence: true, inclusion: [true, false]
     after_initialize :set_defaults, unless: :persisted?

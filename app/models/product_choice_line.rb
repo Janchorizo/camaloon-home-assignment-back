@@ -1,4 +1,4 @@
 class ProductChoiceLine < ApplicationRecord
-  belongs_to :customization_choices
-  belongs_to :products
+  belongs_to :customization_choice
+  belongs_to :product
 end
