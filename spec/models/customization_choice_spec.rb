@@ -5,15 +5,16 @@ RSpec.describe CustomizationChoice, type: :model do
   let(:name) { "simple name" }
 
   # association tests
+  it { should belong_to(:manufacturer) }
+  it { should belong_to(:customization_type) }
+
+  # instance integrity tests
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:model_ref) }
   it { should validate_presence_of(:description) }
   it { should validate_presence_of(:manufacturer) }
   it { should validate_presence_of(:customization_type) }
-  it { should belong_to(:manufacturer) }
-  it { should belong_to(:customization_type) }
 
-  # instance integrity tests
   it "is valid with the factory parameters" do
     expect(subject).to be_valid
   end
