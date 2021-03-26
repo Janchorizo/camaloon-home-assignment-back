@@ -1,0 +1,5 @@
+development:
+  <<: *default
+
+test:
+  <<: *default

@@ -1,0 +1,6 @@
+production:
+  <<: *default
+  database: <%= ENV['PROD_DB_NAME'] %>
+  username: <%= ENV['PROD_DB_USERNAME'] %>
+  password: <%= ENV['PROD_DB_PASSWORD'] %>
+  host: <%= ENV['PROD_DB_HOST'] %>
