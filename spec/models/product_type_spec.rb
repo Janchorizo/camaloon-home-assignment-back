@@ -1,8 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ProductType, type: :model do
-  subject { create :manufacturer }
+  subject { create :product_type }
   let(:name) { "simple name" }
+
+  # instance integrity tests
+  it { should validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:name) }
+  it { should validate_presence_of(:description) }
 
   it "is valid with the factory parameters" do
     expect(subject).to be_valid
@@ -33,6 +38,11 @@ RSpec.describe ProductType, type: :model do
     hidden = true
     p_type = ProductType.new(name: name, description: desc, hidden: hidden)
     expect(p_type).to_not be_valid
+  end
+  it "is not valid with a repeated name" do
+    manufacturer = create(:manufacturer, name: :name)
+    subject.name = :name
+    expect(subject).to_not be_valid
   end
   it "is not valid without a description" do
     name = 'name'
