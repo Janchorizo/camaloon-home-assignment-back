@@ -20,14 +20,36 @@ RSpec.describe CustomizationChoice, type: :model do
   end
 
   it "is valid without an valid extra cost, and it is set to 0" do
-    choice = build(:customization_choice, extra_cost: nil)
+    # factory build method can't be used as it will set the
+    # extra cost after initialization, thus the default values
+    # will not be set when checking the result instance
+    # choice = build(:customization_choice, extra_cost: nil)
+    manufacturer = create(:manufacturer)
+    customization_type = create(:customization_type)
+    choice = CustomizationChoice.new(
+      name: 'sdf',
+      model_ref: 'asdasd',
+      description: 'asdasd',
+      stock: 0,
+      manufacturer: manufacturer,
+      customization_type: customization_type
+    )
     expect(choice).to be_valid
     expect(choice.extra_cost).to eq(0)
   end
 
   it "is valid without a valid stock, and it is set to 0" do
-    choice = build(:customization_choice, stock: nil)
+    manufacturer = create(:manufacturer)
+    customization_type = create(:customization_type)
+    choice = CustomizationChoice.new(
+      name: 'sdf',
+      model_ref: 'asdasd',
+      description: 'asdasd',
+      extra_cost: 0,
+      manufacturer: manufacturer,
+      customization_type: customization_type
+    )
     expect(choice).to be_valid
-    expect(choice.stock).to eq(0)
+    expect(choice.extra_cost).to eq(0)
   end
 end
