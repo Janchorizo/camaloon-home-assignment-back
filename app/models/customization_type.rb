@@ -4,7 +4,7 @@ class CustomizationType < ApplicationRecord
 
     validates_presence_of :name
     validates_presence_of :description
-    validates_presence_of :product
+    validates_presence_of :product_type
 
     validates_length_of :name, :minimum => 1
     validates_length_of :description, :minimum => 1

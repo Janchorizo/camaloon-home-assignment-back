@@ -20,8 +20,8 @@ RSpec.describe CustomizationType, type: :model do
     should validate_presence_of(:description)
   end
 
-  it "should validate the presence of product" do
-    should validate_presence_of(:product)
+  it "should validate the presence of product_type" do
+    should validate_presence_of(:product_type)
   end
 
 
