@@ -28,26 +28,58 @@ RSpec.describe Product, type: :model do
   end
 
   it "is valid with a nil or invalid hidden parameter, and it is set to true" do
-    p = build(:product, hidden: nil)
+    product_type = create(:product_type)
+    p = Product.new(
+      name: 'sdf',
+      description: 'asdasd',
+      product_type: product_type,
+      base_price: 0,
+    )
     expect(p).to be_valid
     expect(p.hidden).to eq(true)
 
-    p = build(:product, hidden: 'text')
+    p = Product.new(
+      name: 'sdf',
+      description: 'asdasd',
+      product_type: product_type,
+      base_price: 0,
+      hidden: nil
+    )
     expect(p).to be_valid
     expect(p.hidden).to eq(true)
 
-    p = build(:product, hidden: 123)
+    p = Product.new(
+      name: 'sdf',
+      description: 'asdasd',
+      product_type: product_type,
+      base_price: 0,
+      hidden: 123
+    )
     expect(p).to be_valid
     expect(p.hidden).to eq(true)
   end
 
   it "is valid with a nil or invalid base_price parameter, and it is set to 0" do
-    p = build(:product, base_price: nil)
-    expect(p).to be_valid
-    expect(p.hidden).to eq(0)
+    product_type = create(:product_type)
 
-    p = build(:product, base_price: 'text')
+    p = Product.new(
+      name: 'sdf',
+      description: 'asdasd',
+      product_type: product_type
+    )
     expect(p).to be_valid
-    expect(p.hidden).to eq(0)
+    expect(p.base_price).to eq(0)
+
+    p = Product.new(
+      name: 'sdf',
+      description: 'asdasd',
+      product_type: product_type,
+      base_price: nil,
+    )
+    expect(p).to be_valid
+    expect(p.base_price).to eq(0)
+
+    expect(p).to be_valid
+    expect(p.base_price).to eq(0)
   end
 end
