@@ -5,13 +5,25 @@ RSpec.describe CustomizationType, type: :model do
   let(:name) { "simple name" }
 
   # association tests
-  it { should belong_to(:product) }
+  it { should belong_to(:product_type) }
 
   # instance integrity tests
-  it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:product) }
-  it { should validate_presence_of(:description) }
-  it { should validate_presence_of(:product) }
+  it "should validate the presence of name" do
+    should validate_presence_of(:name)
+  end
+
+  it "should validate the uniqueness of name" do
+    should validate_uniqueness_of(:name)
+  end
+
+  it "should validate the presence of description" do
+    should validate_presence_of(:description)
+  end
+
+  it "should validate the presence of product" do
+    should validate_presence_of(:product)
+  end
+
 
   it "is valid with the factory parameters" do
     expect(subject).to be_valid
