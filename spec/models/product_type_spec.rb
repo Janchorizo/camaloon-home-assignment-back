@@ -40,7 +40,7 @@ RSpec.describe ProductType, type: :model do
     expect(p_type).to_not be_valid
   end
   it "is not valid with a repeated name" do
-    manufacturer = create(:manufacturer, name: :name)
+    product_type = create(:product_type, name: :name)
     subject.name = :name
     expect(subject).to_not be_valid
   end
