@@ -24,10 +24,14 @@ endif
 
 env_is_present:
 ifeq ($(RAILS_ENV),'')
-	@echo "The environment is not set.\nCall make configure -e RAILS_ENV=<env>"
+	@echo "The environment is not set."
+	@echo "Either set it with the -e option or call make configure -e RAILS_ENV=<env>"
 	@echo "\nThe database config file and enfile will be generated. The specified"
 	@echo "environment will be used unless tests are run, in which case the test"
 	@echo "rails environment will be used.\n"
+	@echo
+	@echo "Setting the RAILS_ENV or TEST_ENV variables using the -e option will"
+	@echo "override the one set during the configuration."
 	exit 1
 endif
 
