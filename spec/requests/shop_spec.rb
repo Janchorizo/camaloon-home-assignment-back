@@ -62,7 +62,7 @@ RSpec.describe 'Shop API', type: :request do
     it 'returns status code 200' do
       expect(response).to have_http_status(200)
     end
-    it 'has {status, status_code, categories} shape' do
+    it 'has {status, status_code, category_id, products} shape' do
       expect(json.length).to eq(4)
       expect(json.keys).to contain_exactly('status', 'status_code', 'category_id', 'products')
     end
@@ -89,7 +89,7 @@ RSpec.describe 'Shop API', type: :request do
     it 'returns status code 403' do
       expect(response).to have_http_status(403)
     end
-    it 'has {status, status_code, categories} shape' do
+    it 'has {status, status_code} shape' do
       expect(json.length).to eq(2)
       expect(json.keys).to contain_exactly('status', 'status_code')
     end
@@ -104,7 +104,7 @@ RSpec.describe 'Shop API', type: :request do
     it 'returns status code 404' do
       expect(response).to have_http_status(404)
     end
-    it 'has {status, status_code, categories} shape' do
+    it 'has {status, status_code} shape' do
       expect(json.length).to eq(2)
       expect(json.keys).to contain_exactly('status', 'status_code')
     end
