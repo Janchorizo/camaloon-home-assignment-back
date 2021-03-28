@@ -40,4 +40,59 @@ class ShopController < ApplicationController
 
         json_response(response, response[:status_code])
     end
+
+    def product_details
+        response = nil
+
+        begin
+            product = Product.find(params[:product_id])
+            category = ProductType.find(product.product_type_id)
+        rescue ActiveRecord::RecordNotFound
+            response = {:status_code => 404, :status => "That product doesn't exist"}
+            json_response(response, response[:status_code])
+            return
+        end
+
+        case category.hidden || product.hidden
+        when true
+            response = {:status_code => 403, :status => "That product can't be accessed"}
+            json_response(response, response[:status_code])
+            return
+        when false
+            customization = []
+
+            begin
+                c_option_ids = (ProductChoiceLine
+                    .where(product_id: product.id)
+                    .select(:customization_choice_id)
+                    .map {|d| d.customization_choice_id})
+
+                c_option_type_ids = (CustomizationChoice
+                    .where({ id: c_option_ids})
+                    .select(:customization_type_id)
+                    .distinct()
+                    .map {|d| d.customization_type_id})
+
+                customization = (CustomizationType
+                    .where({ id: c_option_type_ids})
+                    .map {|d| {:name => d.name, :description => d.description}})
+            rescue ActiveRecord::RecordNotFound
+                # There is no problem with not getting
+                # customization options
+            end
+            response = {
+                :status_code => 200,
+                :status => "OK",
+                :product_id => product.id,
+                :product => {
+                    :name => product.name,
+                    :description => product.description,
+                    :base_price => product.base_price,
+                    :customization_options => customization
+                }
+            }
+
+            json_response(response, response[:status_code])
+        end
+    end
 end
