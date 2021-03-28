@@ -13,6 +13,23 @@ RSpec.describe 'Shop API', type: :request do
   let!(:hidden_products) {
     create_list(:product, 5, product_type_id: categories.first.id, hidden: true)
   }
+  let!(:customization_types) {
+    create_list(:customization_type, 3, product_type_id: categories.first.id)
+  }
+  let!(:customization_choices) {
+    [
+      create(:customization_choice, extra_cost: 0, customization_type: customization_types[0]),
+      create(:customization_choice, extra_cost: 0, customization_type: customization_types[1]),
+      create(:customization_choice, extra_cost: 0, customization_type: customization_types[2])
+    ]
+  }
+  let!(:product_choice_lines) {
+    [
+      create(:product_choice_line, product: products[0], customization_choice: customization_choices[0]),
+      create(:product_choice_line, product: products[0], customization_choice: customization_choices[1]),
+      create(:product_choice_line, product: products[0], customization_choice: customization_choices[2])
+    ]
+  }
 
   # 5 hidden categories, the first with five hidden and five visible products
   let!(:hidden_categories) {
@@ -126,12 +143,9 @@ RSpec.describe 'Shop API', type: :request do
     it 'has a product value with {name, description, base_price, customization_options} shape' do
       expect(json['product'].length).to eq(4)
       expect(json['product'].keys).to contain_exactly('name', 'description', 'base_price', 'customization_options')
-      for product in json['products'] do
-          expect(product.length).to eq(1)
-          expect(product.keys).to contain_exactly('id')
-      end
     end
     it 'the customization options have a {name, description} shape' do
+      expect(json['product']['customization_options'].length).to eq(3)
       for c_option in json['product']['customization_options'] do
         expect(c_option.length).to eq(2)
         expect(c_option.keys).to contain_exactly('name', 'description')
@@ -184,7 +198,7 @@ RSpec.describe 'Shop API', type: :request do
   end
 
   describe 'GET /shop/products/<product_id>/specs for non-existing product' do
-    before { get "/shop/products/#{products.last.id + 10}/specs" }
+    before { get "/shop/products/#{products.last.id + 100}/specs" }
 
     it 'returns a response' do
       expect(json).not_to be_empty
