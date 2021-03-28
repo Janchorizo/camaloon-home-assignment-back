@@ -3,7 +3,7 @@ class ProductType < ApplicationRecord
     has_many :customization_type, dependent: :destroy
     
     validates :name, :description, presence: true, length: { minimum: 1 }
-    validates :hidden, presence: true, inclusion: [true, false]
+    validates_inclusion_of :hidden, in: [true, false]
 
     validates_uniqueness_of :name
 

@@ -4,7 +4,7 @@ class Product < ApplicationRecord
 
   validates_presence_of :product_type
   validates :name, :description, presence: true, length: { minimum: 1 }
-  validates :hidden, presence: true, inclusion: [true, false]
+  validates_inclusion_of :hidden, in: [true, false]
   validates :base_price, :presence => true, :numericality => {:greater_than => -1}
 
   validates_uniqueness_of :name
