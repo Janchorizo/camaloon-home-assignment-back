@@ -39,4 +39,4 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run tests
       run: make configure -e RAILS_ENV=test
-      run: make test -e RAILS_ENV=test
+      run: make test
