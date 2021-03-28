@@ -1,8 +1,13 @@
 class ProductType < ApplicationRecord
     has_many :product, dependent: :destroy
     has_many :customization_type, dependent: :destroy
+    
     validates :name, :description, presence: true, length: { minimum: 1 }
-    validates :hidden, presence: true, inclusion: [true, false]
+    validates_inclusion_of :hidden, in: [true, false]
+
+    validates_uniqueness_of :name
+
+
     after_initialize :set_defaults, unless: :persisted?
     # The set_defaults will only work if the object is new
 

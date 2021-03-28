@@ -32,3 +32,4 @@
 
 # Ignore the ./config/database.yml to enforce configuring it
 /config/database.yml
+envfile

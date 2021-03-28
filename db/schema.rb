@@ -16,11 +16,11 @@ ActiveRecord::Schema.define(version: 2021_03_25_184927) do
   enable_extension "plpgsql"
 
   create_table "customization_choices", force: :cascade do |t|
-    t.string "name"
-    t.string "model_ref"
-    t.string "description"
-    t.float "extra_cost"
-    t.float "stock"
+    t.string "name", null: false
+    t.string "model_ref", null: false
+    t.string "description", null: false
+    t.float "extra_cost", null: false
+    t.float "stock", null: false
     t.bigint "manufacturer_id", null: false
     t.bigint "customization_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_184927) do
   end
 
   create_table "customization_types", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
+    t.string "name", null: false
+    t.string "description", null: false
     t.bigint "product_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -39,12 +39,12 @@ ActiveRecord::Schema.define(version: 2021_03_25_184927) do
   end
 
   create_table "manufacturers", force: :cascade do |t|
-    t.string "name"
-    t.string "cif"
-    t.string "email"
+    t.string "name", null: false
+    t.string "cif", null: false
+    t.string "email", null: false
     t.string "website"
     t.string "billing_address"
-    t.float "phone"
+    t.float "phone", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -59,18 +59,18 @@ ActiveRecord::Schema.define(version: 2021_03_25_184927) do
   end
 
   create_table "product_types", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.boolean "hidden"
+    t.string "name", null: false
+    t.string "description", null: false
+    t.boolean "hidden", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.float "base_price"
-    t.boolean "hidden"
+    t.string "name", null: false
+    t.string "description", null: false
+    t.float "base_price", null: false
+    t.boolean "hidden", null: false
     t.bigint "product_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

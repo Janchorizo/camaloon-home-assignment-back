@@ -39,6 +39,5 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Configure database
       run: make configure -e RAILS_ENV=test
-    - run: cat config/database.yml
     - name: Run tests
-      run: make test -e RAILS_ENV=test
+      run: make test
