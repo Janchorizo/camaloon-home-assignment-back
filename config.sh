@@ -15,7 +15,7 @@
 # https://github.com/rails/rails/issues/32926
 # https://github.com/rails/rails/issues/28827
 
-RAILS_env=$1
+env=$1
 echo "Using $1 environment"
 
 case $env in
