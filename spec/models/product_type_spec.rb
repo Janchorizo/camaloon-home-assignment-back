@@ -82,6 +82,11 @@ RSpec.describe ProductType, type: :model do
     expect(p_type).to be_valid
     expect(p_type.hidden).to eq(true)
   end
+  it "is valid with the hidden paramter set to false" do
+    subject.hidden = false
+    expect(subject).to be_valid
+    expect(subject.hidden).to eq(false)
+  end
   it "is valid with an empty hidden paramter, and it is set to true" do
     name = 'name'
     desc = 'desc'

@@ -59,6 +59,12 @@ RSpec.describe Product, type: :model do
     expect(p.hidden).to eq(true)
   end
 
+  it "is valid with the hidden paramter set to false" do
+    subject.hidden = false
+    expect(subject).to be_valid
+    expect(subject.hidden).to eq(false)
+  end
+
   it "is valid with a nil or invalid base_price parameter, and it is set to 0" do
     product_type = create(:product_type)
 
