@@ -96,6 +96,65 @@ class ShopController < ApplicationController
         end
     end
 
+    def factory_model
+        response = nil
+
+        begin
+            product = Product.find(params[:product_id])
+            category = ProductType.find(product.product_type_id)
+        rescue ActiveRecord::RecordNotFound
+            response = {:status_code => 404, :status => "That product doesn't exist"}
+            json_response(response, response[:status_code])
+            return
+        end
+
+        case category.hidden || product.hidden
+        when true
+            response = {:status_code => 403, :status => "That product can't be accessed"}
+            json_response(response, response[:status_code])
+            return
+        when false
+            customization = []
+
+            begin
+                choices = CustomizationChoice
+                    .joins(:product_choice_line, :customization_type)
+                    .where(
+                        product_choice_lines: {product_id: product.id},
+                    )
+                
+                filtered_choices = {}
+                for choice in choices
+                    unless filtered_choices.has_key?(choice.id)
+                        customization_type = CustomizationType.find(choice.customization_type_id)
+                        filtered_choices[choice.id] = :keep
+                        customization << {
+                            :id => choice.customization_type_id,
+                            :option_name => customization_type.name,
+                            :name => choice.name,
+                            :description => choice.description,
+                            :supplier => choice.manufacturer_id,
+                            :extra_cost => choice.extra_cost,
+                            :stock => choice.stock
+                        }
+                    end
+                end
+            rescue ActiveRecord::RecordNotFound
+                # There is no problem with not getting
+                # customization options
+            end
+
+            response = {
+                :status_code => 200,
+                :status => "OK",
+                :product_id => product.id,
+                :customization_options => customization
+            }
+
+            json_response(response, response[:status_code])
+        end
+    end
+
     def product_choices
         response = nil
 
