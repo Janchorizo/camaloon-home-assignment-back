@@ -26,6 +26,8 @@ RSpec.describe 'Shop API', type: :request do
   let!(:product_choice_lines) {
     [
       create(:product_choice_line, product: products[0], customization_choice: customization_choices[0]),
+      create(:product_choice_line, product: products[0], customization_choice: customization_choices[0]),
+      create(:product_choice_line, product: products[0], customization_choice: customization_choices[0]),
       create(:product_choice_line, product: products[0], customization_choice: customization_choices[1]),
       create(:product_choice_line, product: products[0], customization_choice: customization_choices[2])
     ]
@@ -226,7 +228,7 @@ RSpec.describe 'Shop API', type: :request do
       expect(json.keys).to contain_exactly('status', 'status_code', 'product_id', 'customization_option', 'choices')
     end
     it 'the customization options have a {name, description, supplier, extra_cost, stock} shape' do
-      expect(json['choices'].length).to eq(5)
+      expect(json['choices'].length).to eq(3)
       for c_option in json['choices'] do
         expect(c_option.length).to eq(5)
         expect(c_option.keys).to contain_exactly('name', 'description', 'supplier', 'extra_cost', 'stock')
@@ -234,7 +236,7 @@ RSpec.describe 'Shop API', type: :request do
     end
   end
 
-  describe 'GET /shop/products/<product_id>/specs for a not-available option' do
+  describe 'GET /shop/products/<product_id>/option/<option_name>/choices for a not-available option' do
     before { get "/shop/products/#{products.first.id}/option/#{customization_types.last.name + customization_types.last.name}/choices" }
 
     it 'returns the products' do
@@ -243,12 +245,9 @@ RSpec.describe 'Shop API', type: :request do
     it 'returns status code 404' do
       expect(response).to have_http_status(404)
     end
-    it 'the customization options array has zero length' do
-      expect(json['choices'].length).to eq(0)
-    end
   end
 
-  describe 'GET /shop/products/<product_id>/specs from a hidden category' do
+  describe 'GET /shop/products/<product_id>/option/<option_name>/choices from a hidden category' do
     before { get "/shop/products/#{products_in_hidden_category.first.id}/option/1/choices" }
 
     it 'returns a response' do
@@ -263,7 +262,7 @@ RSpec.describe 'Shop API', type: :request do
     end
   end
 
-  describe 'GET /shop/products/<product_id>/specs for a hidden product' do
+  describe 'GET /shop/products/<product_id>/option/<option_name>/choices for a hidden product' do
     before { get "/shop/products/#{hidden_products.first.id}/option/1/choices" }
 
     it 'returns a response' do
@@ -278,7 +277,7 @@ RSpec.describe 'Shop API', type: :request do
     end
   end
 
-  describe 'GET /shop/products/<product_id>/specs for non-existing product' do
+  describe 'GET /shop/products/<product_id>/option/<option_name>/choices for non-existing product' do
     before { get "/shop/products/#{hidden_products.first.id + 100}/option/1/choices" }
 
     it 'returns a response' do
