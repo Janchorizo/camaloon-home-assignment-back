@@ -13,7 +13,11 @@ class Product < ApplicationRecord
   # The set_defaults will only work if the object is new
 
   def set_defaults
-      self.hidden = true if self.hidden.nil?
+    if self.has_attribute?(:hidden) && self.hidden.nil?
+      self.hidden = true
+    end
+    if self.has_attribute?(:base_price)
       self.base_price ||= 0.0
+    end
   end
 end
