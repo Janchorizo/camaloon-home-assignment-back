@@ -95,4 +95,56 @@ class ShopController < ApplicationController
             json_response(response, response[:status_code])
         end
     end
+
+    def product_choices
+        response = nil
+
+        begin
+            product = Product.find(params[:product_id])
+            category = ProductType.find(product.product_type_id)
+        rescue ActiveRecord::RecordNotFound
+            response = {:status_code => 404, :status => "That product doesn't exist"}
+            json_response(response, response[:status_code])
+            return
+        end
+
+        if category.hidden || product.hidden
+            response = {:status_code => 403, :status => "That product can't be accessed"}
+            json_response(response, response[:status_code])
+            return
+        end
+
+        begin
+            choices = CustomizationChoice
+                .joins(:product_choice_line, :customization_type)
+                .where(
+                    product_choice_lines: {product_id: product.id},
+                    customization_types: {name: params[:option_name]}
+                ).map { |d| {
+                    :name => d.name,
+                    :description => d.description,
+                    :supplier => d.manufacturer_id,
+                    :extra_cost => d.extra_cost,
+                    :stock => d.stock
+                }}
+        rescue ActiveRecord::RecordNotFound
+            response = {:status_code => 404, :status => "That option is not available"}
+            json_response(response, response[:status_code])
+            return
+        end
+
+        if choices.length == 0
+            response = {:status_code => 404, :status => "That option is not available"}
+            json_response(response, response[:status_code])
+        else
+            response = {
+                :status_code => 200,
+                :status => "OK",
+                :product_id => product.id,
+                :customization_option => params[:option_name],
+                :choices => choices
+            }
+            json_response(response, response[:status_code])
+        end
+    end
 end

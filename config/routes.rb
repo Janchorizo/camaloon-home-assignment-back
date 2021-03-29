@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   get '/shop/categories', to: 'shop#categories'
   get '/shop/categories/:category_id/products', to: 'shop#category_products'
   get '/shop/products/:product_id/specs', to: 'shop#product_details'
+  get '/shop/products/:product_id/option/:option_name/choices', to: 'shop#product_choices'
 end
 
