@@ -211,44 +211,90 @@ RSpec.describe 'Shop API', type: :request do
       expect(json.keys).to contain_exactly('status', 'status_code')
     end
   end
-#  describe 'GET /shop/product/<product_id>/specs' do
-#    before { get '/shop/product/<product_id>/specs' }
-#
-#    it 'returns health' do
-#      expect(json).not_to be_empty
-#    end
-#    it 'returns status code 200' do
-#      expect(response).to have_http_status(200)
-#    end
-#    it 'has {healthy: bool} shape' do
-#      expect(json.length).to eq(1)
-#      expect(json.keys).to contain_exactly('healthy')
-#    end
-#    it 'is healthy' do
-#      expect(json['healthy']).to be true
-#    end
-#  end
-#
+
+  describe 'GET /shop/products/<product_id>/option/<option_name>/choices' do
+    before { get "/shop/products/#{products.first.id}/option/#{customization_types.first.name}/choices" }
+
+    it 'returns the choice' do
+      expect(json).not_to be_empty
+    end
+    it 'returns status code 200' do
+      expect(response).to have_http_status(200)
+    end
+    it 'has {status, status_code, product_id, customization_option, choices} shape' do
+      expect(json.length).to eq(5)
+      expect(json.keys).to contain_exactly('status', 'status_code', 'product_id', 'customization_option', 'choices')
+    end
+    it 'the customization options have a {name, description, supplier, extra_cost, stock} shape' do
+      expect(json['choices'].length).to eq(5)
+      for c_option in json['choices'] do
+        expect(c_option.length).to eq(5)
+        expect(c_option.keys).to contain_exactly('name', 'description', 'supplier', 'extra_cost', 'stock')
+      end
+    end
+  end
+
+  describe 'GET /shop/products/<product_id>/specs for a not-available option' do
+    before { get "/shop/products/#{products.first.id}/option/#{customization_types.last.name + customization_types.last.name}/choices" }
+
+    it 'returns the products' do
+      expect(json).not_to be_empty
+    end
+    it 'returns status code 404' do
+      expect(response).to have_http_status(404)
+    end
+    it 'the customization options array has zero length' do
+      expect(json['choices'].length).to eq(0)
+    end
+  end
+
+  describe 'GET /shop/products/<product_id>/specs from a hidden category' do
+    before { get "/shop/products/#{products_in_hidden_category.first.id}/option/1/choices" }
+
+    it 'returns a response' do
+      expect(json).not_to be_empty
+    end
+    it 'returns status code 403' do
+      expect(response).to have_http_status(403)
+    end
+    it 'has {status, status_code} shape' do
+      expect(json.length).to eq(2)
+      expect(json.keys).to contain_exactly('status', 'status_code')
+    end
+  end
+
+  describe 'GET /shop/products/<product_id>/specs for a hidden product' do
+    before { get "/shop/products/#{hidden_products.first.id}/option/1/choices" }
+
+    it 'returns a response' do
+      expect(json).not_to be_empty
+    end
+    it 'returns status code 403' do
+      expect(response).to have_http_status(403)
+    end
+    it 'has {status, status_code} shape' do
+      expect(json.length).to eq(2)
+      expect(json.keys).to contain_exactly('status', 'status_code')
+    end
+  end
+
+  describe 'GET /shop/products/<product_id>/specs for non-existing product' do
+    before { get "/shop/products/#{hidden_products.first.id + 100}/option/1/choices" }
+
+    it 'returns a response' do
+      expect(json).not_to be_empty
+    end
+    it 'returns status code 404' do
+      expect(response).to have_http_status(404)
+    end
+    it 'has {status, status_code} shape' do
+      expect(json.length).to eq(2)
+      expect(json.keys).to contain_exactly('status', 'status_code')
+    end
+  end
+
 #  describe 'GET /shop/product/<product_id>/factory_model' do
 #    before { get '/shop/product/<product_id>/factory_model' }
-#
-#    it 'returns health' do
-#      expect(json).not_to be_empty
-#    end
-#    it 'returns status code 200' do
-#      expect(response).to have_http_status(200)
-#    end
-#    it 'has {healthy: bool} shape' do
-#      expect(json.length).to eq(1)
-#      expect(json.keys).to contain_exactly('healthy')
-#    end
-#    it 'is healthy' do
-#      expect(json['healthy']).to be true
-#    end
-#  end
-#
-#  describe 'GET shop/product/<product_id>/option/<customization_option_name>/choices' do
-#    before { get 'shop/product/<product_id>/option/<customization_option_name>/choices' }
 #
 #    it 'returns health' do
 #      expect(json).not_to be_empty
