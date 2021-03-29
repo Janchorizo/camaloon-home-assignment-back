@@ -1,6 +1,7 @@
 class CustomizationChoice < ApplicationRecord
   belongs_to :customization_type
   belongs_to :manufacturer
+  has_many :product_choice_line
 
   validates_presence_of :name
   validates_presence_of :description
