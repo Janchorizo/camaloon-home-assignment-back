@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :product_type
-  has_many :product_choice_line
+  has_many :product_choice_line, dependent: :destroy
 
   validates_presence_of :product_type
   validates :name, :description, presence: true, length: { minimum: 1 }
