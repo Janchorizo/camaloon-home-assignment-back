@@ -13,7 +13,7 @@ class Admin::CustomizationChoicesController < ApplicationController
     def index
         entries = CustomizationChoice
             .where(customization_type_id: params[:customization_type_id])
-        json_response(entries)
+        json_response({status: 'OK', status_code: 200, choices: entries})
     end
 
     # POST /admin/categories/:product_type_id/options/:customization_type_id/choices
@@ -33,18 +33,24 @@ class Admin::CustomizationChoicesController < ApplicationController
             manufacturer_id: 1,
             customization_type_id: params[:customization_type_id]
         )
-        json_response(new_entry)
+
+        entries = CustomizationChoice
+            .where(customization_type_id: params[:customization_type_id])
+        json_response({status: 'OK', status_code: 200, choices: entries})
     end
 
     # PUT /admin/categories/:product_type_id/options/:customization_type_id/choices/:id
     def update
         @entry.update(customization_choice_params)
-        json_response({:ok => true, :choice => @entry})
+        json_response({status: 'OK', status_code: 200, :choice => @entry})
     end
 
     # DELETE /admin/categories/:product_type_id/options/:customization_type_id/choices/:id
     def destroy
         @entry.destroy
-        json_response({:ok => true, :choice => @entry})
+
+        entries = CustomizationChoice
+            .where(customization_type_id: params[:customization_type_id])
+        json_response({status: 'OK', status_code: 200, choices: entries})
     end
 end

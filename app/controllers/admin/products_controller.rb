@@ -1,5 +1,5 @@
 class Admin::ProductsController < ApplicationController
-    before_action :set_entry, only: [:get, :update, :destroy]
+    before_action :set_entry, only: [:show, :update, :destroy]
 
     def set_entry
         @entry = Product.find(params[:id])
@@ -12,12 +12,12 @@ class Admin::ProductsController < ApplicationController
     # GET /admin/categories/:product_type_id/products
     def index
         entries = Product.where(product_type_id: params[:product_type_id])
-        json_response(entries)
+        json_response({status: 'OK', status_code: 200, products: entries})
     end
 
     # GET /admin/categories/:product_type_id/products/:product_id
-    def get
-        json_response(@entry)
+    def show
+        json_response({status: 'OK', status_code: 200, product: @entry})
     end
 
     # POST /admin/categories/:product_type_id/products
@@ -36,18 +36,20 @@ class Admin::ProductsController < ApplicationController
             product_type_id: params[:product_type_id]
         )
 
-        json_response(new_entry)
+        entries = Product.where(product_type_id: params[:product_type_id])
+        json_response({status: 'OK', status_code: 200, products: entries})
     end
 
     # PUT /admin/categories/:product_type_id/products:id
     def update
         @entry.update(product_params)
-        json_response({:ok => true, product: @entry})
+        json_response({status: 'OK', status_code: 200, product: @entry})
     end
 
     # DELETE /admin/categories/:categorie/products/:id
     def destroy
         @entry.destroy
-        json_response({:ok => true, product: @entry})
+        entries = Product.where(product_type_id: params[:product_type_id])
+        json_response({status: 'OK', status_code: 200, products: entries})
     end
 end

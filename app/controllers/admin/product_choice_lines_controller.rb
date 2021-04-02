@@ -7,9 +7,15 @@ class Admin::ProductChoiceLinesController < ApplicationController
 
     # GET /admin/categories/:product_type_id/products/:product_id/choices
     def index
-        entries = ProductChoiceLine
-            .where(product_id: params[:product_id])
-        json_response(entries)
+        columns = ('product_choice_lines.id, customization_choices.name,' +
+        ' customization_choices.description, customization_choices.model_ref,' +
+        ' customization_choices.extra_cost, customization_types.name as type,' +
+        ' customization_types.id as type_id, product_choice_lines.customization_choice_id as choice_id')
+        entries = CustomizationChoice
+            .joins(:product_choice_line, :customization_type)
+            .where(product_choice_lines: {product_id: params[:product_id]})
+            .select(columns)
+        json_response({status: 'OK', status_code: 200, choices: entries})
     end
 
     # POST /admin/categories/:product_type_id/products/:product_id/choices
@@ -55,12 +61,28 @@ class Admin::ProductChoiceLinesController < ApplicationController
             customization_choice_id: choice_id
         )
 
-        json_response(new_entry)
+        columns = ('product_choice_lines.id, customization_choices.name,' +
+        ' customization_choices.description, customization_choices.model_ref,' +
+        ' customization_choices.extra_cost, customization_types.name as type,' +
+        ' customization_types.id as type_id, product_choice_lines.customization_choice_id as choice_id')
+        entries = CustomizationChoice
+            .joins(:product_choice_line, :customization_type)
+            .where(product_choice_lines: {product_id: params[:product_id]})
+            .select(columns)
+        json_response({status: 'OK', status_code: 200, choices: entries})
     end
 
     # DELETE /admin/categories/:product_type_id/options/:customization_type_id/choices/:id
     def destroy
         @entry.destroy
-        json_response({:ok => true, :product_choice_line => @entry})
+        columns = ('product_choice_lines.id, customization_choices.name,' +
+        ' customization_choices.description, customization_choices.model_ref,' +
+        ' customization_choices.extra_cost, customization_types.name as type,' +
+        ' customization_types.id as type_id, product_choice_lines.customization_choice_id as choice_id')
+        entries = CustomizationChoice
+            .joins(:product_choice_line, :customization_type)
+            .where(product_choice_lines: {product_id: params[:product_id]})
+            .select(columns)
+        json_response({status: 'OK', status_code: 200, choices: entries})
     end
 end

@@ -12,7 +12,7 @@ class Admin::ProductTypesController < ApplicationController
     # GET /admin/categories
     def index
         entries = ProductType.all
-        json_response(entries)
+        json_response({status: 'OK', status_code: 200, categories: entries})
     end
 
     # POST /admin/categories
@@ -27,18 +27,18 @@ class Admin::ProductTypesController < ApplicationController
 
         new_entry = ProductType.create(name: new_name, description: 'automatically created')
 
-        json_response(new_entry)
+        json_response({status: 'OK', status_code: 200, categories: ProductType.all})
     end
 
     # PUT /admin/categories/:id
     def update
         @entry.update(product_type_params)
-        json_response({:ok => true, category: @entry})
+        json_response({status: 'OK', status_code: 200, category: @entry})
     end
 
     # DELETE /admin/categories/:id
     def destroy
         @entry.destroy
-        json_response({:ok => true, category: @entry})
+        json_response({status: 'OK', status_code: 200, categories: ProductType.all})
     end
 end
