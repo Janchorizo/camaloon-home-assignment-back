@@ -32,8 +32,9 @@ RSpec.describe 'Admin customization choices API', type: :request do
         expect(response).to have_http_status(200)
     end
 
-    it 'returns all category categories' do
-      expect(json.size).to eq(2)
+    it 'returns all category choices' do
+      expect(json.size).to eq(3)
+      expect(json['choices'].length).to eq(2)
     end
   end
 

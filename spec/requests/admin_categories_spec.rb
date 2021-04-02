@@ -58,7 +58,8 @@ RSpec.describe 'Admin categories API', type: :request do
     end
 
     it 'returns all category categories' do
-      expect(json.size).to eq(categories.length + hidden_categories.length)
+      expect(json.size).to eq(3)
+      expect(json['categories'].length).to eq(categories.length + hidden_categories.length)
     end
   end
 

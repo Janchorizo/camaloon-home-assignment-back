@@ -26,7 +26,8 @@ RSpec.describe 'Admin customization options API', type: :request do
     end
 
     it 'returns all options' do
-      expect(json.size).to eq(customization_options.length)
+      expect(json.size).to eq(3)
+      expect(json['options'].length).to eq(customization_options.length)
     end
   end
 

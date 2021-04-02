@@ -40,7 +40,8 @@ RSpec.describe 'Admin products API', type: :request do
     end
 
     it 'returns all products' do
-      expect(json.size).to eq(products.length + hidden_products.length)
+        expect(json.size).to eq(3)
+      expect(json['products'].length).to eq(products.length + hidden_products.length)
     end
   end
 
